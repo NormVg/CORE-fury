@@ -26,11 +26,10 @@ def speech_To_text(file):
 def text_to_speech(text):
     
     VOICE = "en-IN-PrabhatNeural"
-    OUTPUT_FILE = filename_gen(extention=".wav")
+    OUTPUT_FILE = "temp/speak/"+filename_gen(extention=".wav")
     async def amain():
 
         communicate = edge_tts.Communicate(text, VOICE,rate="+10%")
         await communicate.save(OUTPUT_FILE)
     asyncio.run(amain())
-
-# text_to_speech("hi")
+    return OUTPUT_FILE

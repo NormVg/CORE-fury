@@ -1,3 +1,3 @@
-from plugs.transcriber import *
+from plugs.transcriber import text_to_speech
 
-text_to_speech("hello dude how are you how may i help you")
+text_to_speech("sdsdfj")

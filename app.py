@@ -1,15 +1,20 @@
-from flask import Flask ,request,jsonify
+from flask import Flask ,request,jsonify,render_template,send_file
 import os
+from flask_cors import CORS
 
 from plugs.app_manger import *
 from plugs.filename_gen import filename_gen
 from plugs.volume_increser import inc_vol
 
-from flask_cors import CORS
 UPLOAD_FOLDER = "./temp"
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app)
+
+@app.before_request
+def del_spek():
+    clear_all_speak()
 
 
 @app.route('/')
@@ -31,7 +36,8 @@ def fury():
         # clearing the temp
         clear_temp(name)
         clear_temp(name_)
-        return resp
+
+        return jsonify(resp)
     return '''
       <!doctype html>
       <title>Upload new File</title>
@@ -42,5 +48,21 @@ def fury():
       </form>
       '''
 
+@app.route("/api/speak/",methods=['POST','GET'])
+def speak():
+    file = request.args.get("file")
+    return send_file(file)
+
+@app.route("/test",methods=['POST','GET'])
+def test():
+    if request.method == 'POST':
+        file = request.files['file']
+        file.save("test.wav")
+        # print(file)
+    return "200"
+
+@app.route("/testapp",methods=['POST','GET'])
+def testapp():
+    return render_template("index.html")
 if __name__ == "__main__":
-    app.run(port=2002,debug=True)
+    app.run(port=2002,debug=True,host="0.0.0.0")

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+        <input type=file name=file id="fileInput">
+        <input onclick="upload()" type=submit value=Upload>
+    
+    <script>
+        function upload() {
+            const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+            console.log(file)
+      if (!file) {
+        alert('Please select a file.');
+        return;
+      }
+
+      const url = 'http://localhost:2002/fury'; // Replace with your API endpoint
+      
+      const formData = new FormData();
+      formData.append('file', file);
+
+      fetch(url, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response from the server
+        console.log('Response:', data);
+        document.getElementById('status').innerText = 'File uploaded successfully!';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('status').innerText = 'Error uploading file.';
+      });
+    
+        }
+    </script>
+</body>
+</html>

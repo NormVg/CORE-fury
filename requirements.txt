@@ -1,0 +1,7 @@
+edge-tts
+SpeechRecognition
+pydub
+requests
+googletrans==3.1.0a0
+flask
+flask-cors
