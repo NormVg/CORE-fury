@@ -53,6 +53,12 @@ def speak():
     file = request.args.get("file")
     return send_file(file)
 
+@app.route("/fury-text",methods=['POST','GET'])
+def fury_text():
+    command = request.args.get("command")
+    resp = fury_text_init(command)
+    return jsonify(resp)
+
 @app.route("/test",methods=['POST','GET'])
 def test():
     if request.method == 'POST':

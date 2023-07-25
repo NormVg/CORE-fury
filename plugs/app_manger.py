@@ -13,13 +13,29 @@ def clear_all_speak():
     li = os.listdir("temp/speak/")
     if len(li )>7:
         for i in li:
-            os.remove("temp/speak/"+i)
+            if i != "ignore.file":
+                os.remove("temp/speak/"+i)
 
 def fury_init(file):
     print(file)
     
     command = speech_To_text(file)
     print(command)
+    intent = IRS(command)
+    print(intent)
+    if intent['irs'] == "000":
+        #not recognised 
+        resp = fury_response(command)
+        
+    else:    
+        resp = fury_response(command)
+    
+    file = text_to_speech(resp)
+    data = {"reply":resp,"audio":file}
+    
+    return data
+
+def fury_text_init(command):
     intent = IRS(command)
     print(intent)
     if intent['irs'] == "000":
